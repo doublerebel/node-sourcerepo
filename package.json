@@ -1,0 +1,16 @@
+{
+  "name": "sourcerepo",
+  "version": "1.0.0",
+  "description": "Manages SourceRepo projects",
+  "main": "index.js",
+  "dependencies": {
+    "awaitajax": "^0.9.1",
+    "prompt": "^0.2.14"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "doublerebel",
+  "license": "All Rights Reserved"
+}
