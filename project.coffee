@@ -22,7 +22,8 @@ class Project
     ## URIs
     @baseurl         = "https://#{@account}.sourcerepo.com"
     @loginurl        = "#{@baseurl}/login/check_login"
-    @newurl          = "#{@baseurl}/projects/create_project"
+    @newurl          = "#{@baseurl}/projects/new"
+    @createurl       = "#{@baseurl}/projects/create_project"
     @accessurl       = "#{@baseurl}/projects/project_access"
     @updateaccessurl = "#{@baseurl}/projects/update_project_access"
 
@@ -49,9 +50,20 @@ class Project
 
     req =
       url: @newurl
+      headers:
+        Cookie: @cookie
+
+    await @get req, esc defer data
+    token = @parseToken data
+    return callback "unable to get authenticity_token" unless token
+    @log "token: #{token}"
+
+    req =
+      url: @createurl
       data:
         "project[name]":               name
         "project[repository_type_id]": @types[type]
+        authenticity_token:            token
       headers:
         Cookie: @cookie
 
@@ -76,10 +88,9 @@ class Project
         Cookie: @cookie
 
     await @get req, esc defer data
-    match = /authenticity_token[a-z" \-=]+value="(.*)"/.exec data
-    unless data and match and token = match[1]
-      return callback "unable to get authenticity_token"
-    else @log token
+    token = @parseToken data
+    return callback "unable to get authenticity_token" unless token
+    @log "token: #{token}"
 
     req =
       url: @updateaccessurl
@@ -122,6 +133,13 @@ class Project
     else
       @log "success"
       callback null, data, xhr
+
+  parseToken: (data) ->
+    match = /authenticity_token[a-z" \-=]+value="(.*)"/.exec data
+    unless data and match and token = match[1]
+      null
+    else token
+
 
 
 module.exports = Project
