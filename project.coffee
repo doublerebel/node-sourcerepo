@@ -117,7 +117,7 @@ class Project
   post: (req, callback) ->
     req.type = "POST"
     await @resource req, defer data, xhr
-    if data isnt "Moved Temporarily"
+    if xhr?.status isnt 302
       callback data, xhr
     else
       @log "success"
