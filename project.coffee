@@ -40,7 +40,8 @@ class Project
 
     @log "logging in"
     await @post req, esc defer data, xhr
-    [@cookie] = xhr.getResponseHeader "set-cookie"
+    return callback "did not receive cookie" unless @cookie
+
     callback null, @cookie
 
   create: (name, type = "Git", callback) ->
@@ -98,6 +99,8 @@ class Project
     req = extend {}, @req, req
     @log "#{req.type} to #{req.url}"
     await Ajax.awaitAjax req, defer status, xhr, statusText, data
+    [@cookie] = xhr.getResponseHeader "set-cookie" if xhr?
+
     if status is "error"
       callback data, xhr
     else
