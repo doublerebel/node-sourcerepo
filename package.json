@@ -2,6 +2,10 @@
   "name": "sourcerepo",
   "version": "1.0.0",
   "description": "Manages SourceRepo projects",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/doublerebel/node-sourcerepo.git"
+  },
   "main": "index.js",
   "dependencies": {
     "awaitajax": "^0.9.1",
