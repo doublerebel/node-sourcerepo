@@ -8,7 +8,7 @@
   },
   "main": "index.js",
   "dependencies": {
-    "awaitajax": "^0.9.1",
+    "awaitajax": "^1.0.0",
     "prompt": "^0.2.14"
   },
   "devDependencies": {},
